@@ -319,7 +319,7 @@ xpybConn_call(xpybConn *self, PyObject *args, PyObject *kw)
 
     /* Check our dictionary of cached values */
     ext = xpybConn_load_ext(self, key);
-    if (!ext->present) {
+    if (ext != NULL && !ext->present) {
 	PyErr_SetString(xpybExcept_ext, "Extension not present on server.");
 	Py_DECREF(ext);
 	return NULL;
