@@ -439,10 +439,13 @@ xpybConn_wait_for_event(xpybConn *self, PyObject *args)
 
     if (data->response_type == 0) {
 	xpybError_set(self, (xcb_generic_error_t *)data);
+	free(data);
 	return NULL;
     }
 
-    return xpybEvent_create(self, data);
+    PyObject *retval = xpybEvent_create(self, data);
+    free(data);
+    return retval;
 }
 
 static PyObject *
@@ -464,10 +467,13 @@ xpybConn_poll_for_event(xpybConn *self, PyObject *args)
 
     if (data->response_type == 0) {
 	xpybError_set(self, (xcb_generic_error_t *)data);
+	free(data);
 	return NULL;
     }
 
-    return xpybEvent_create(self, data);
+    PyObject *retval = xpybEvent_create(self, data);
+    free(data);
+    return retval;
 }
 
 static PyObject *
